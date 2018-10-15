@@ -233,5 +233,6 @@ tr {
 @media screen and (max-width: 767px) {
   #container {
     width: 100%;
+    padding: 5px;
   }
 }
