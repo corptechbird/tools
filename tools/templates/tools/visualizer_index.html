@@ -119,7 +119,7 @@
                 <div><textarea class="csv_url" type="text" name="csv_url" rows="4" placeholder="Input CSV URL here" autocomplete="off">{{ csv_url }}</textarea></div>
                 <div><input class="csv_submit" type="submit" value="Execute"></div>
             </form>
-            <ins class="adsbygoogle"
+            <ins id="result-place" class="adsbygoogle"
                 style="display:inline-block;width:728px;height:90px"
                 data-ad-client="ca-pub-2330122305834701"
                 data-ad-slot="3318403188"></ins>
@@ -127,6 +127,11 @@
             (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
             {% if text %}
+            <script>
+                $(function() {
+                    document.getElementById("result-place").scrollIntoView(false);
+                });
+            </script>
             <div class="result-frame">
                 <div class="result">
                     <div class="tables">

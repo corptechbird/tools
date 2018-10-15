@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>CSV Crosstabs Maker</title>
+    <meta name="description" content="「プログラミングを独学ではじめるならTECHBIRD」をコンセプトに、様々なプログラミング言語を解説しています。">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tools/style.css' %}">
+    <meta name="keywords" content="CSV, 可視化, プログラミング, 逆引き, できること, 初心者, 入門, 独学">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Favicon, Thumbnail image -->
+    <link rel="icon" type="image/x-icon" sizes="16x16" href="{% static 'tools/favicon-16.ico' %}">
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="{% static 'tools/favicon-32.ico' %}">
+    <link rel="icon" type="image/x-icon" sizes="48x48" href="{% static 'tools/favicon-48.ico' %}">
+    <link rel="icon" type="image/x-icon" sizes="152x152" href="{% static 'tools/favicon-152.ico' %}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125050500-1"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-2330122305834701",
+        enable_page_level_ads: true
+    });
+    </script>
+</head>
+<body>
+    <script>
+        var addthis_config = addthis_config||{};
+        addthis_config.data_track_addressbar = false;
+        addthis_config.data_track_clickback = false;
+
+        var click_count = 0;    // クリック数の初期化
+        function menu_click(){
+            if( click_count % 2 == 0 ){
+                $('#menu').css({
+                    "display":"block",
+                    "background-color":"rgba(0,0,0,0.9)",
+                    "padding":"20px",
+                    "width":"100%"
+                });
+                $('#menu li').css('display','block');
+                $('#menu ul li').css('text-align','center');
+                document.getElementById("btn").innerHTML='<a href="javascript:menu_click();"><i class="fas fa-times fa-lg"></i></a>';
+            }else{
+                $('#menu').css('display','none');
+                document.getElementById("btn").innerHTML='<a href="javascript:menu_click();"><i class="fas fa-bars fa-lg"></i></a>';
+
+                var $win = $(window);
+                $win.on('load resize', function() {
+                    var windowWidth = $win.width();
+                    if (windowWidth >= 1000) {
+                        // PCの処理
+                        $('#btn').css({
+                            "display":"none",
+                            "float":"right"
+                        });
+                        $('#bbtn').css({
+                            "display":"none",
+                            "float":"right"
+                        });
+                        $('#menu').css({
+                            "display":"inline",
+                            "float":"right",
+                            "background-color":"white"
+                        });
+                        $('#menu li').css('display','inline-block');
+                    } else if (windowWidth < 1000) {
+                        $('#btn').css({
+                            "display":"block",
+                            "float":"left",
+                            "padding":"15px"
+                        });
+                        $('#bbtn').css({
+                            "display":"block",
+                            "float":"left",
+                            "padding":"15px"
+                        });
+                        $('#menu').css({
+                            "display":"none",
+                            "float":"right",
+                            "width":"auto",
+                            "padding":"0"
+                        });
+                        // TABの処理
+                    } else {
+                        // SPの処理
+                    }
+                });
+            }
+            click_count++;
+        }
+    </script>
+    <div id="pageTop"><a href="#"><i class="fa fa-chevron-up"></i></a></div>
+    <!-- Header -->       
+    <div id="header">
+        <a href="http://techbird.site">
+        <img src="http://techbird.site/wp-content/themes/MediaBlog/images/icon.png" ></a>
+        <span id="btn"><a data-remodal-target="modal" href="javascript:menu_click();"><i class="fas fa-bars fa-lg"></i></a></span>
+    </div><!-- /#header -->
+    <div id="main">
+        <div id="container">
+            <h1 class="title">CSV Crosstabs Maker</h1>
+            <div class="caption">This service makes crosstabs of CSV online.
+                The distribution of the number of records of each item can be confirmed at a glance, 
+                and basic overhead work required for preprocessing data analysis can be done with one click. 
+            </div>
+            <ins class="adsbygoogle"
+                style="display:inline-block;width:728px;height:90px"
+                data-ad-client="ca-pub-2330122305834701"
+                data-ad-slot="3318403188"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <form action="" method="get">
+                <div><textarea class="csv_url" type="text" name="csv_url" rows="4" placeholder="Input CSV URL here" autocomplete="off">{{ csv_url }}</textarea></div>
+                <div><input class="csv_submit" type="submit" value="Execute"></div>
+            </form>
+            <ins class="adsbygoogle"
+                style="display:inline-block;width:728px;height:90px"
+                data-ad-client="ca-pub-2330122305834701"
+                data-ad-slot="3318403188"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            {% if text %}
+            <div class="result-frame">
+                <div class="result">
+                    <div class="tables">
+                        {% for array in text %}
+                        <table>
+                            <tr>
+                                <th colspan="2">{{ array.0 }}</th>                
+                            </tr>
+                            {% for key, message in array.1.items %}
+                            <tr>
+                                <td>
+                                    {{ key }}
+                                </td>
+                                <td>
+                                    {{ message }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <form action="" method="get">
+                <div class="json_download"><a href="{% url 'app:export' %}" download="myfile.json">Download as JSON</a></div>
+            </form>
+            <ins class="adsbygoogle"
+                style="display:inline-block;width:728px;height:90px"
+                data-ad-client="ca-pub-2330122305834701"
+                data-ad-slot="3318403188"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            {% endif %}
+            <h1 class="notes">How to use</h1>
+            <div class="notes-caption">1. Input CSV URL to blue frame</div>
+            <div class="notes-caption">2. Push『Execute』button</div>
+            <div class="notes-caption">3. Confirm the output in orange frame</div>
+            <div class="notes-caption">4. If you need the output as JSON file, push『Download as JSON』button</div>
+            <ins class="adsbygoogle"
+                style="display:inline-block;width:728px;height:90px"
+                data-ad-client="ca-pub-2330122305834701"
+                data-ad-slot="3318403188"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <h1 class="notes">Notes</h1>
+            <div class="notes-caption">Since all processing is done in Python (local environment) on the browser, 
+                    there is no need to send / save any data to the external server at all.
+            </div>
+            <ins class="adsbygoogle"
+                style="display:inline-block;width:728px;height:90px"
+                data-ad-client="ca-pub-2330122305834701"
+                data-ad-slot="3318403188"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+    <div id="footer">
+        <div>
+                <a href="http://techbird.site">
+                <img src="http://techbird.site/wp-content/themes/MediaBlog/images/icon.png"> </a>
+        </div>
+        <div class="text">
+            <ul><li><a href="http://techbird.site/bizmedia">Company</a></li>
+            <li><a href="http://techbird.site/contact">Contact</a></li>
+            <li><a href="http://techbird.site/privacy">Privacy</a></li></ul>
+        </div>
+        <div class="copy">
+            &copy; All rights reserved.
+        </div>
+    </div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b58a0fda9fc44fd"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-125050500-1');
+
+$(function(){
+var topBtn=$('#pageTop');
+topBtn.hide();
+//◇ボタンの表示設定
+$(window).scroll(function(){
+if($(this).scrollTop()>100){
+topBtn.fadeIn();
+}else{
+topBtn.fadeOut();
+} 
+});
+topBtn.click(function(){
+$('body,html').animate({
+scrollTop: 0},500);
+return false;
+});
+});
+</script>
+</body>
+</html>

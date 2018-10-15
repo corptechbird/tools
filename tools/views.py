@@ -45,7 +45,7 @@ def post_export(request):
         result[column] = dic
     return JsonResponse(result, safe=False)
   
-def index(request):
+def visualizer_index(request):
     text = ""
     csv_url = ""
     if(request.GET.get('csv_url')):
@@ -55,4 +55,16 @@ def index(request):
         text = None
     context = {'text': text,
     'csv_url': csv_url}
-    return render(request, 'tools/index.html', context)
+    return render(request, 'tools/visualizer_index.html', context)
+
+def cross_index(request):
+    text = ""
+    csv_url = ""
+    if(request.GET.get('csv_url')):
+        text = analyze(request.GET.get('csv_url'))
+        csv_url = request.GET.get('csv_url')
+    else:
+        text = None
+    context = {'text': text,
+    'csv_url': csv_url}
+    return render(request, 'tools/cross_index.html', context)
