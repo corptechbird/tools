@@ -15,7 +15,6 @@ body {
   margin: 40px auto auto auto;
   padding: 40px;
  }
-
 .title {
   padding: 0.4em 0.5em;/*文字の上下 左右の余白*/
   color: #494949;/*文字色*/
@@ -50,7 +49,6 @@ input {
 textarea {
   width: 100%;
 }
-
 textarea.csv_url {
   /* font-size: 1.5em; */
   height: 120px;
@@ -62,7 +60,6 @@ textarea.csv_url {
 textarea.csv_url:focus {
   outline: 0;
 }
-
 input.csv_submit{
   height: 60px;
   text-decoration: none;
@@ -122,7 +119,6 @@ input.csv_submit:active   {
   color: white;
   text-decoration: none;
 }
-
 .json_download:active   {
   -ms-transform: translateY(4px);
   -webkit-transform: translateY(4px);
@@ -158,7 +154,6 @@ th, td {
 tr {
   border: solid 1px lightgray;
 }
-
 #header {
   background-color: white;
   position: fixed;
@@ -229,7 +224,52 @@ tr {
   margin: 10px;
   font-size: 0.8em;
 }
-
+a.popup-modal{
+  text-decoration: none;
+  color: rgba(80, 80, 80, 1);
+}
+a.popup-modal:visited {
+  text-decoration: none;
+  color: rgba(80, 80, 80, 0.7);
+}
+a.popup-modal:hover {
+  text-decoration: none;
+  color: rgba(220, 87, 0, 1);
+}
+div#shape {
+  width: 750px;
+  height: 500px;
+  margin: auto;
+  background: rgba(247, 247, 247, 1);
+  border: solid 4px rgba(220, 87, 0, 1);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+}
+.popup-modal-dismiss {
+  width: 750px;
+  margin: auto;
+}
+.popup-modal-dismiss a {
+  font-size: 30px;
+  color: white;
+}
+.popup-modal-dismiss a:hover {
+  text-decoration: none;
+  color: white;
+}
+.popup-modal-dismiss a:visited {
+  text-decoration: none;
+  color: white;
+}
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #494949;
+    shape-rendering: crispEdges;
+}
+.axis text {
+    font-family: sans-serif;
+    font-size: 14px;
+}
 @media screen and (max-width: 767px) {
   #container {
     width: 100%;

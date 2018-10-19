@@ -31,6 +31,44 @@ def analyze(csv_url):
         pass
     return x
 
+def cross(csv_url):
+    dataFrame = None
+    global csv
+    csv = csv_url
+    x = []
+    try:
+        dataFrame = pd.read_csv(csv_url,
+                encoding='utf-8')
+        global data
+        data = dataFrame
+        df = pd.crosstab(dataFrame['sex'], dataFrame['pclass'])
+        idx = pd.IndexSlice
+        x.append(df.values.tolist())
+            #     print(c)
+        #     for local in dataFrame:
+        #         if column != local:
+        #             y = []
+                    # y.append(column)
+                    # y.append(local)
+                    # df = pd.crosstab(dataFrame[column], dataFrame[local])
+                    # isCalculated = false
+                    # for index, rows in df.iterrows():
+                    #     if isCalculated == false:
+                    #         columns = []
+                    #         for row in rows:
+                    #             columns.append(row)
+                    #         y.append(columns)
+                    #     print(index)
+                    #     print(rows)
+                    # x.append(df)
+        global message
+        message = x
+    except:
+        pass
+    finally:
+        pass
+    return x
+
 def post_export(request):
     global data
     result = {}
@@ -61,10 +99,22 @@ def cross_index(request):
     text = ""
     csv_url = ""
     if(request.GET.get('csv_url')):
-        text = analyze(request.GET.get('csv_url'))
+        text = cross(request.GET.get('csv_url'))
         csv_url = request.GET.get('csv_url')
     else:
         text = None
     context = {'text': text,
     'csv_url': csv_url}
     return render(request, 'tools/cross_index.html', context)
+
+def pivot_index(request):
+    text = ""
+    csv_url = ""
+    if(request.GET.get('csv_url')):
+        text = analyze(request.GET.get('csv_url'))
+        csv_url = request.GET.get('csv_url')
+    else:
+        text = None
+    context = {'text': text,
+    'csv_url': csv_url}
+    return render(request, 'tools/pivot_index.html', context)

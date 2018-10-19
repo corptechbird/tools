@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>CSV Crosstabs Maker</title>
-    <meta name="description" content="We provide online tools based on the concept of small effective tool makes business better.">
+    <meta name="description" content="We provide online tools based on the concept of small effective tools makes business better.">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'tools/style.css' %}">
-    <meta name="keywords" content="CSV, Visualize, Programming, Web, Data Science, Kaggle, Tool, Data Processing">
+    <meta name="keywords" content="CSV, Visualize, Programming, Web, Data Science, Kaggle, Tool, Data Processing, Progate, Aidemy, Udemy">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Favicon, Thumbnail image -->
     <link rel="icon" type="image/x-icon" sizes="16x16" href="{% static 'tools/favicon-16.ico' %}">
@@ -27,80 +27,12 @@
     });
     </script>
 </head>
-<body>
-    <script>
-        var addthis_config = addthis_config||{};
-        addthis_config.data_track_addressbar = false;
-        addthis_config.data_track_clickback = false;
-
-        var click_count = 0;    // クリック数の初期化
-        function menu_click(){
-            if( click_count % 2 == 0 ){
-                $('#menu').css({
-                    "display":"block",
-                    "background-color":"rgba(0,0,0,0.9)",
-                    "padding":"20px",
-                    "width":"100%"
-                });
-                $('#menu li').css('display','block');
-                $('#menu ul li').css('text-align','center');
-                document.getElementById("btn").innerHTML='<a href="javascript:menu_click();"><i class="fas fa-times fa-lg"></i></a>';
-            }else{
-                $('#menu').css('display','none');
-                document.getElementById("btn").innerHTML='<a href="javascript:menu_click();"><i class="fas fa-bars fa-lg"></i></a>';
-
-                var $win = $(window);
-                $win.on('load resize', function() {
-                    var windowWidth = $win.width();
-                    if (windowWidth >= 1000) {
-                        // PCの処理
-                        $('#btn').css({
-                            "display":"none",
-                            "float":"right"
-                        });
-                        $('#bbtn').css({
-                            "display":"none",
-                            "float":"right"
-                        });
-                        $('#menu').css({
-                            "display":"inline",
-                            "float":"right",
-                            "background-color":"white"
-                        });
-                        $('#menu li').css('display','inline-block');
-                    } else if (windowWidth < 1000) {
-                        $('#btn').css({
-                            "display":"block",
-                            "float":"left",
-                            "padding":"15px"
-                        });
-                        $('#bbtn').css({
-                            "display":"block",
-                            "float":"left",
-                            "padding":"15px"
-                        });
-                        $('#menu').css({
-                            "display":"none",
-                            "float":"right",
-                            "width":"auto",
-                            "padding":"0"
-                        });
-                        // TABの処理
-                    } else {
-                        // SPの処理
-                    }
-                });
-            }
-            click_count++;
-        }
-    </script>
-    <div id="pageTop"><a href="#"><i class="fa fa-chevron-up"></i></a></div>
-    <!-- Header -->       
+<body>     
     <div id="header">
         <a href="http://techbird.site">
         <img src="http://techbird.site/wp-content/themes/MediaBlog/images/icon.png" ></a>
         <span id="btn"><a data-remodal-target="modal" href="javascript:menu_click();"><i class="fas fa-bars fa-lg"></i></a></span>
-    </div><!-- /#header -->
+    </div>
     <div id="main">
         <div id="container">
             <h1 class="title">CSV Crosstabs Maker</h1>
@@ -127,15 +59,30 @@
             (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
             {% if text %}
+            <script>
+                $(function() {
+                    $("html,body").animate({scrollTop:$('.result-frame').offset().top-50}, 0);
+                });
+            </script>
             <div class="result-frame">
                 <div class="result">
                     <div class="tables">
                         {% for array in text %}
+                        {{ array }}
+                        <p>これからだ</p>
                         <table>
                             <tr>
-                                <th colspan="2">{{ array.0 }}</th>                
+                                <th>{{ array.0 }}</th>     
+                                {% for key, message in array.0.items %}
+                                <th>
+                                    {{ message }}
+                                </th>
+                                {% endfor %}        
                             </tr>
-                            {% for key, message in array.1.items %}
+                            <tr>
+                                <th>{{ array.1 }}</th>                
+                            </tr>
+                            {% for key, message in array.3.items %}
                             <tr>
                                 <td>
                                     {{ key }}
@@ -206,24 +153,6 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-125050500-1');
-
-$(function(){
-var topBtn=$('#pageTop');
-topBtn.hide();
-//◇ボタンの表示設定
-$(window).scroll(function(){
-if($(this).scrollTop()>100){
-topBtn.fadeIn();
-}else{
-topBtn.fadeOut();
-} 
-});
-topBtn.click(function(){
-$('body,html').animate({
-scrollTop: 0},500);
-return false;
-});
-});
 </script>
 </body>
 </html>

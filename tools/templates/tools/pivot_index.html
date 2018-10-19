@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>CSV Visualizer</title>
+    <title>CSV Pivot Table Maker</title>
     <meta name="description" content="We provide online tools based on the concept of small effective tools makes business better.">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'tools/style.css' %}">
     <meta name="keywords" content="CSV, Visualize, Programming, Web, Data Science, Kaggle, Tool, Data Processing, Progate, Aidemy, Udemy">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
     <!-- Favicon, Thumbnail image -->
     <link rel="icon" type="image/x-icon" sizes="16x16" href="{% static 'tools/favicon-16.ico' %}">
     <link rel="icon" type="image/x-icon" sizes="32x32" href="{% static 'tools/favicon-32.ico' %}">
@@ -18,8 +17,6 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-125050500-1"></script>
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -27,17 +24,6 @@
     (adsbygoogle = window.adsbygoogle || []).push({
         google_ad_client: "ca-pub-2330122305834701",
         enable_page_level_ads: true
-    });
-    $(function () {
-        $('.popup-modal').magnificPopup({
-            type: 'inline',
-            preloader: false
-        });
-        //閉じるリンクの設定
-        $(document).on('click', '.popup-modal-dismiss', function (e) { 
-            e.preventDefault();
-            $.magnificPopup.close();
-        });
     });
     </script>
 </head>
@@ -49,8 +35,8 @@
     </div>
     <div id="main">
         <div id="container">
-            <h1 class="title">CSV Visualizer</h1>
-            <div class="caption">This service makes crosstabs of CSV online.
+            <h1 class="title">CSV Pivot Table Maker</h1>
+            <div class="caption">This service makes pivot table of CSV online.
                 The distribution of the number of records of each item can be confirmed at a glance, 
                 and basic overhead work required for preprocessing data analysis can be done with one click. 
             </div>
@@ -77,69 +63,11 @@
                 $(function() {
                     $("html,body").animate({scrollTop:$('.result-frame').offset().top-50}, 0);
                 });
-                function getContent(element){
-                    document.getElementById("shape").innerHTML = null
-                    var dataset = []
-                    for (var i = 0; i < element.children[0].children[0].children.length; i++) {
-                        if (i >= 1){
-                            var localset = {}
-                            for (var j = 0; j < element.children[0].children[0].children[i].children.length; j++) {
-                                if(j == 0) {
-                                    localset["name"] = String(element.children[0].children[0].children[i].children[j].innerHTML).trim();
-                                } else {
-                                    localset["value"] = parseInt(element.children[0].children[0].children[i].children[j].innerHTML.trim());
-                                }
-                            }
-                            dataset.push(localset);
-                        }
-                    }
-                    console.log(dataset);
-                    var width = 750; // グラフの幅
-                    var height = 500; // グラフの高さ
-                    var padding = 50; // スケール表示用マージン
-                    
-                    // 2. SVG領域の設定
-                    var svg = d3.select("div#shape").append("svg").attr("width", width).attr("height", height);
-                
-                    // 3. 軸スケールの設定
-                    var xScale = d3.scaleBand()
-                    .rangeRound([padding, width - padding])
-                    .padding(0.1)
-                    .domain(dataset.map(function(d) { return d.name; }));
-                
-                    var yScale = d3.scaleLinear()
-                    .domain([0, d3.max(dataset, function(d) { return d.value; })])
-                    .range([height - padding, padding]);
-                
-                    // 4. 軸の表示
-                    svg.append("g")
-                    .attr("transform", "translate(" + 0 + "," + (height - padding) + ")")
-                    .attr("class", "axis")
-                    .call(d3.axisBottom(xScale));
-                
-                    svg.append("g")
-                    .attr("transform", "translate(" + padding + "," + 0 + ")")
-                    .attr("class", "axis")
-                    .call(d3.axisLeft(yScale));
-                
-                    // 5. バーの表示
-                    svg.append("g")
-                    .selectAll("rect")
-                    .data(dataset)
-                    .enter()
-                    .append("rect")
-                    .attr("x", function(d) { return xScale(d.name); })
-                    .attr("y", function(d) { return yScale(d.value); })
-                    .attr("width", xScale.bandwidth())
-                    .attr("height", function(d) { return height - padding - yScale(d.value); })
-                    .attr("fill", "rgba(220, 87, 0, 1)");
-                };
             </script>
             <div class="result-frame">
                 <div class="result">
                     <div class="tables">
                         {% for array in text %}
-                        <a class="popup-modal" href="#inline-wrap" onclick="getContent(this);">
                         <table>
                             <tr>
                                 <th colspan="2">{{ array.0 }}</th>                
@@ -155,11 +83,6 @@
                             </tr>
                             {% endfor %}
                         </table>
-                        </a>
-                        <div id="inline-wrap" class="mfp-hide">
-                            <p class="popup-modal-dismiss"><a href="#">×</a></p>
-                            <div id="shape"></div>
-                        </div>
                         {% endfor %}
                     </div>
                 </div>
