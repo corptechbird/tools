@@ -3,6 +3,10 @@ import numpy as np
 import pandas as pd
 import json
 from django.http import JsonResponse
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+import os
+import glob
 
 message = []
 csv = ""
@@ -14,7 +18,7 @@ def analyze(csv_url):
     csv = csv_url
     x = []
     try:
-        dataFrame = pd.read_csv(csv_url,
+        dataFrame = pd.read_csv("media/"+csv_url,
                 encoding='utf-8')
         global data
         data = dataFrame
@@ -93,6 +97,17 @@ def visualizer_index(request):
         text = None
     context = {'text': text,
     'csv_url': csv_url}
+    
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        text = analyze(filename)
+        # fs.delete(myfile.name)
+        return render(request, 'tools/visualizer_index.html', {
+            'text': text
+        })
+
     return render(request, 'tools/visualizer_index.html', context)
 
 def cross_index(request):

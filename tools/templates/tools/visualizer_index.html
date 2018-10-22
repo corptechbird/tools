@@ -45,7 +45,6 @@
     <div id="header">
         <a href="http://techbird.site">
         <img src="http://techbird.site/wp-content/themes/MediaBlog/images/icon.png" ></a>
-        <span id="btn"><a data-remodal-target="modal" href="javascript:menu_click();"><i class="fas fa-bars fa-lg"></i></a></span>
     </div>
     <div id="main">
         <div id="container">
@@ -61,6 +60,14 @@
             <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="myfile">
+                <button type="submit">Upload</button>
+              </form>
+              {% if uploaded_file_url %}
+                <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+              {% endif %}
             <form action="" method="get">
                 <div><textarea class="csv_url" type="text" name="csv_url" rows="4" placeholder="Input CSV URL here" autocomplete="off">{{ csv_url }}</textarea></div>
                 <div><input class="csv_submit" type="submit" value="Execute"></div>
