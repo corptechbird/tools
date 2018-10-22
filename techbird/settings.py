@@ -27,7 +27,7 @@ SECRET_KEY = 'g%cq2%c3og_2#5q@npm6ri-ij^@grazsoku^a8%n5=@g7&az3@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'techbird.site']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'techbird.site', 'techbird.c.techbird-209609.internal:8080']
 
 
 # Application definition
