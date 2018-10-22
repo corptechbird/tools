@@ -19,7 +19,7 @@ def analyze(csv_url):
     x = []
     try:
         print(csv_url)
-        dataFrame = pd.read_csv("media/"+csv_url,
+        dataFrame = pd.read_csv(os.path.join(BASE_DIR, 'media')+"/"+csv_url,
                 encoding='utf-8')
         print(dataFrame)
         global data
