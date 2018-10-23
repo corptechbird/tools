@@ -39,6 +39,15 @@
             $.magnificPopup.close();
         });
     });
+
+    $(function() {
+        $('#submit_label').on("change", function() {
+            var file = this.files[0];
+            if(file != null) {
+                $('#csv_button').css('display','block');
+            }
+        });
+    });
     </script>
 </head>
 <body>     
@@ -48,7 +57,7 @@
     </div>
     <div id="main">
         <div id="container">
-            <h1 class="title">CSV Visualizer</h1>
+            <h1 class="title">Data Science Automator</h1>
             <div class="caption">This service makes crosstabs of CSV online.
                 The distribution of the number of records of each item can be confirmed at a glance, 
                 and basic overhead work required for preprocessing data analysis can be done with one click. 
@@ -62,12 +71,9 @@
             </script>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="file" name="myfile">
-                <button type="submit">Upload</button>
-              </form>
-              {% if uploaded_file_url %}
-                <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
-              {% endif %}
+                <label class="json_download" for="submit_label">Select CSV File<input id="submit_label" type="file" name="myfile"></label>
+                <button id="csv_button" class="json_download" type="submit">Execute</button>
+            </form>
             <form action="" method="get">
                 <div><textarea class="csv_url" type="text" name="csv_url" rows="4" placeholder="Input CSV URL here" autocomplete="off">{{ csv_url }}</textarea></div>
                 <div><input class="csv_submit" type="submit" value="Execute"></div>

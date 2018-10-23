@@ -11,14 +11,37 @@ message = []
 csv = ""
 data = {}
 
-def analyze(csv_url):
+def localanalyze(csv_url):
+    dataFrame = None
+    global csv
+    csv = csv_url
+    x = []
+    # try:
+    csv_url = "http://techbird.site:8080/static/tools/media/" + csv_url
+    dataFrame = pd.read_csv(csv_url, error_bad_lines=False, encoding='utf-8')
+    print(dataFrame)
+    global data
+    data = dataFrame
+    for column in dataFrame:
+        y = []
+        y.append(column)
+        y.append(dataFrame[column].value_counts())
+        x.append(y)
+    global message
+    message = x
+    # except:
+    #     pass
+    # finally:
+    #     pass
+    return x
+
+def remoteanalyze(csv_url):
     dataFrame = None
     global csv
     csv = csv_url
     x = []
     try:
-        csv_url = "http://techbird:8080/static/tools/media/" + csv_url
-        dataFrame = pd.read_csv(csv_url, error_bad_lines=False, encoding='utf-8')
+        dataFrame = pd.read_csv(csv_url, encoding='utf-8')
         global data
         data = dataFrame
         for column in dataFrame:
@@ -90,7 +113,7 @@ def visualizer_index(request):
     text = ""
     csv_url = ""
     if(request.GET.get('csv_url')):
-        text = analyze(request.GET.get('csv_url'))
+        text = remoteanalyze(request.GET.get('csv_url'))
         csv_url = request.GET.get('csv_url')
     else:
         text = None
@@ -101,7 +124,7 @@ def visualizer_index(request):
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
-        text = analyze(filename)
+        text = localanalyze(filename)
         fs.delete(myfile.name)
         return render(request, 'tools/visualizer_index.html', {
             'text': text
