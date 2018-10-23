@@ -5,8 +5,7 @@ import json
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-import os
-import glob
+import csv
 
 message = []
 csv = ""
@@ -18,8 +17,8 @@ def analyze(csv_url):
     csv = csv_url
     x = []
     try:
-        dataFrame = pd.read_csv(csv_url,
-                encoding='utf-8')
+        csv_url = "http://techbird:8080/static/tools/media/" + csv_url
+        dataFrame = pd.read_csv(csv_url, error_bad_lines=False, encoding='utf-8')
         global data
         data = dataFrame
         for column in dataFrame:
@@ -103,7 +102,7 @@ def visualizer_index(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         text = analyze(filename)
-        # fs.delete(myfile.name)
+        fs.delete(myfile.name)
         return render(request, 'tools/visualizer_index.html', {
             'text': text
         })
