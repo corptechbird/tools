@@ -18,10 +18,8 @@ def analyze(csv_url):
     csv = csv_url
     x = []
     try:
-        print(csv_url)
-        dataFrame = pd.read_csv("media/"+csv_url,
+        dataFrame = pd.read_csv(csv_url,
                 encoding='utf-8')
-        print(dataFrame)
         global data
         data = dataFrame
         for column in dataFrame:
