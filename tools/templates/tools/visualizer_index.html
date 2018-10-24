@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>CSV Visualizer</title>
+    <title>Data Science Automator</title>
     <meta name="description" content="We provide online tools based on the concept of small effective tools makes business better.">
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'tools/style.css' %}">
@@ -144,7 +144,7 @@
                     .attr("y", function(d) { return yScale(d.value); })
                     .attr("width", xScale.bandwidth())
                     .attr("height", function(d) { return height - padding - yScale(d.value); })
-                    .attr("fill", "rgba(220, 87, 0, 1)");
+                    .attr("fill", function(d, i) { return "rgba(100, 193, 177, " + (100 - i * 0.01) + ")"; });
                 };
             </script>
             <div class="result-frame">

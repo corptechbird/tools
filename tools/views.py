@@ -5,7 +5,7 @@ import json
 from django.http import JsonResponse
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-import csv
+import os
 
 message = []
 csv = ""
